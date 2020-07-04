@@ -35,6 +35,12 @@ class KeyParserTest(unittest.TestCase):
         subkey = key.subkey_for_path("0")
         self.assertEqual(subkey.address(), "1NV3j6NgeAkWBytXiQkWxMFLBtTdbef1rp")
 
+    def test_parse_bip32_native_segwit_pub(self):
+        key = BTC.parse("zpub6nsHdRuY92FsMKdbn9BfjBCG6X8pyhCibNP6uDvpnw2cyrVhecvHRMa3Ne8kdJZxjxgwnpbHLkcR4bfnhHy6auHPJyDTQ3kianeuVLdkCYQ")
+        self.assertEqual(key.secret_exponent(), None)
+        subkey = key.subkey_for_path("0/0")
+        self.assertEqual(subkey.address(), "bc1q3g5tmkmlvxryhh843v4dz026avatc0zzr6h3af")
+
     def test_parse_bad_bip32_prv(self):
         key = BTC.parse("xprv9s21ZrQH143K31AgNK5pyVvW23gHnkBq2wh5aEk6g1s496M8ZMjx"
                         "ncCKZKgb5jZoY5eSJMJ2Vbyvi2hbmQnCuHBujZ2WXGTux1X2k9Krdtr")
@@ -51,6 +57,10 @@ class KeyParserTest(unittest.TestCase):
     def test_parse_address(self):
         key = BTC.parse("1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH")
         self.assertEqual(key.address(), "1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH")
+    
+    def test_parse_p2wpkh_address(self):
+        key = BTC.parse("bc1q3g5tmkmlvxryhh843v4dz026avatc0zzr6h3af")
+        self.assertEqual(key.address(), "bc1q3g5tmkmlvxryhh843v4dz026avatc0zzr6h3af")
 
     def test_parse_bad_address(self):
         key = BTC.parse("1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMW")
